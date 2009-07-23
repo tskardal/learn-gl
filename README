@@ -1,0 +1,3 @@
+A project for me to play with. Only purpose: improve OpenGL (and C++) skills.
+
+Currently I'm only developing in a linux environment using the g++ compiler. My first goal is to render a cube (whoa!) in a SDL window.
