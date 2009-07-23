@@ -1,4 +1,12 @@
+#ifndef SDLWINDOW_H
+#define SDLWINDOW_H
+
 #include <cstdio>
+#include <string>
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
+
+using namespace std;
 
 namespace LearnGL
 {
@@ -9,44 +17,33 @@ namespace LearnGL
 	int m_height;
 	int m_bpp;
 	bool m_fullscreen;
-	
+	bool m_running;
+	string m_title;
     public:
 	Window();
 	virtual ~Window();
 	
-	void create(int width, int height, int bpp, bool fullscreen);
-	void nextFrame();
-	bool isFullscreen();
+	virtual void create(int width, int height, int bpp, bool fullscreen, const string& title) = 0;
+	virtual void nextFrame() = 0;
+	virtual bool isFullscreen();
+	virtual bool isRunning();
     };
 };
 
+#endif
 
 using namespace LearnGL;
 
-Window::Window()
+Window::Window(){}
+
+Window::~Window(){}
+
+bool Window::isFullscreen()
 {
-
-}
-
-Window::~Window()
-{
-        printf("Deleting base class window\n");
-}
-
-void Window::create(int width, int height, int bpp, bool fullscreen)
-{
-    m_width = width;
-    m_height = height;
-    m_bpp = bpp;
-    m_fullscreen = fullscreen;
-}
-
-bool Window::isFullscreen(){
     return m_fullscreen;
 }
 
-
-void Window::nextFrame()
+bool Window::isRunning()
 {
-    // next frame please
+    return m_running;
 }

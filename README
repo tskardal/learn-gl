@@ -1,3 +1,11 @@
 A project for me to play with. Only purpose: improve OpenGL (and C++) skills.
 
 Currently I'm only developing in a linux environment using the g++ compiler. My first goal is to render a cube (whoa!) in a SDL window.
+
+WARNING: expect messy code. This is an pre-early stage :o)
+
+Next steps:
+
+- make it possible to stop the application without having to kill it
+- render cube
+- improve application design
