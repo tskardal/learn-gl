@@ -11,6 +11,7 @@ namespace LearnGL
 	virtual ~SDLWindow();
 	void create(int width, int height, int bpp, bool fullscreen, const string& title);
 	void nextFrame();
+	void resize(int x, int y);
     private:
 	bool initSDL();
 	bool initGL(); // perhaps unnecessary, or should be virtual
@@ -66,6 +67,14 @@ bool SDLWindow::initSDL()
     {
 	return false;
     }
+
+    // at least?
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 5);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     
     // window caption
     SDL_WM_SetCaption(m_title.c_str(), NULL);
@@ -90,6 +99,21 @@ bool SDLWindow::initGL()
     glLoadIdentity();
 
     return true;
+}
+
+void SDLWindow::resize(int x, int y)
+{
+    if(y <= 0)
+	y = 1;
+
+    glViewport(0, 0, x, y);
+    
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45.0f, (GLfloat)x / (GLfloat)y, 1.0f, 100.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 }
 
 void SDLWindow::nextFrame()

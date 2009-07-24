@@ -25,6 +25,7 @@ namespace LearnGL
 	
 	virtual void create(int width, int height, int bpp, bool fullscreen, const string& title) = 0;
 	virtual void nextFrame() = 0;
+	virtual void resize(int x, int y) = 0;
 	virtual bool isFullscreen();
 	virtual bool isRunning();
     };

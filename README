@@ -6,6 +6,6 @@ WARNING: expect messy code. This is an pre-early stage :o)
 
 Next steps:
 
-- make it possible to stop the application without having to kill it
+X make it possible to stop the application without having to kill it
 - render cube
 - improve application design
