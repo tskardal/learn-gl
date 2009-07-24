@@ -16,14 +16,13 @@ int main(int argc, char** argv)
 	if(!processEvents())
 	{
 	    break;
-
 	}
 	wnd->nextFrame();
     }
 
     delete wnd;
 
-    std::cout << "lala :)" << std::endl;
+    std::cout << "Shutting down." << std::endl;
 }
 
 // todo: this should be abstracted into its own class

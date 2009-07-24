@@ -70,6 +70,13 @@ bool SDLWindow::initSDL()
     // window caption
     SDL_WM_SetCaption(m_title.c_str(), NULL);
 
+    // force resize event needed by ogl
+    SDL_Event resizeEvent;
+    resizeEvent.type=SDL_VIDEORESIZE;
+    resizeEvent.resize.w=m_width;
+    resizeEvent.resize.h=m_height;
+    SDL_PushEvent(&resizeEvent);    
+
     return true;
 }
 
