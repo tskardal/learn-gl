@@ -4,8 +4,8 @@ Currently I'm only developing in a linux environment using the g++ compiler. My 
 
 WARNING: expect messy code. This is an pre-early stage :o)
 
-Next steps:
+Completed steps:
 
 X make it possible to stop the application without having to kill it
 X render cube
-- improve application design
+X improve application design (good enough for now..)
