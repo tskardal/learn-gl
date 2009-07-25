@@ -1,4 +1,9 @@
+#ifndef SDLWINDOW_H
+#define SDLWINDOW_H
+
 #include "window.h"
+#include "SDL/SDL.h"
+#include "SDL/SDL_opengl.h"
 
 using namespace std;
 
@@ -33,22 +38,21 @@ SDLWindow::~SDLWindow()
 
 void SDLWindow::create(int width, int height, int bpp, bool fullscreen, const string& title)
 {
-    // todo: remove this (it's duplicate)
+    // todo: this don't feel right. should be handled by class Window
     m_width = width;
     m_height = height;
     m_bpp = bpp;
     m_fullscreen = fullscreen;
     m_title = title;
 
-    printf("hmmm\n");
     if(!initSDL())
     {
-	printf("Error\n");
+	printf("Error creating SDL window.\n");
+	// later, throw exception
     }
     else
     {
 	m_running = true;
-	printf("Yay\n");
     }
 }
 
@@ -68,7 +72,7 @@ bool SDLWindow::initSDL()
 	return false;
     }
 
-    // at least?
+    // tutorial says "at least"? todo: find out why and what!
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
@@ -85,18 +89,6 @@ bool SDLWindow::initSDL()
     resizeEvent.resize.w=m_width;
     resizeEvent.resize.h=m_height;
     SDL_PushEvent(&resizeEvent);    
-
-    return true;
-}
-
-bool SDLWindow::initGL()
-{
-    // black background color
-    glClearColor(0, 0, 0, 0);
-
-    // projection
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
 
     return true;
 }
@@ -120,3 +112,5 @@ void SDLWindow::nextFrame()
 {
     SDL_GL_SwapBuffers();
 }
+
+#endif

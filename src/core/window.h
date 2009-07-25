@@ -1,10 +1,8 @@
-#ifndef SDLWINDOW_H
-#define SDLWINDOW_H
+#ifndef WINDOW_H
+#define WINDOW_H
 
 #include <cstdio>
 #include <string>
-#include "SDL/SDL.h"
-#include "SDL/SDL_opengl.h"
 
 using namespace std;
 
@@ -20,31 +18,15 @@ namespace LearnGL
 	bool m_running;
 	string m_title;
     public:
-	Window();
-	virtual ~Window();
+	Window(){ }
+	virtual ~Window(){ }
 	
 	virtual void create(int width, int height, int bpp, bool fullscreen, const string& title) = 0;
 	virtual void nextFrame() = 0;
 	virtual void resize(int x, int y) = 0;
-	virtual bool isFullscreen();
-	virtual bool isRunning();
+	virtual bool isFullscreen(){ return m_fullscreen; }
+	virtual bool isRunning(){ return m_running; }
     };
 };
 
 #endif
-
-using namespace LearnGL;
-
-Window::Window(){}
-
-Window::~Window(){}
-
-bool Window::isFullscreen()
-{
-    return m_fullscreen;
-}
-
-bool Window::isRunning()
-{
-    return m_running;
-}
