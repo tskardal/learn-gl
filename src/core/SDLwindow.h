@@ -3,7 +3,7 @@
 
 #include "window.h"
 #include "SDL/SDL.h"
-#include "SDL/SDL_opengl.h"
+#include "GL/glew.h"
 
 using namespace std;
 

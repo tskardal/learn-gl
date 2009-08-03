@@ -1,8 +1,10 @@
+#define NO_SDL_GLEXT
+
 #include <iostream>
 #include <vector>
 
 #include "core/SDLwindow.h"
-#include "examples/cube.h"
+#include "examples/glsl.h"
 
 using namespace LearnGL;
 
@@ -11,9 +13,9 @@ bool processEvents(Window* wnd);
 int main(int argc, char** argv)
 {
     Window* wnd = new SDLWindow();
-    wnd->create(800,600,32,false,"Test");
+    wnd->create(800,600,32,false,"GLSL baby!");
 
-    Application* app = new CubeExample();   
+    Application* app = new GLSLExample();   
 
     while(wnd->isRunning()) 
     {
