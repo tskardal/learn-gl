@@ -1,8 +1,13 @@
 A project for me to play with. Its only purpose: improve OpenGL (and C++) skills.
 
-Currently I'm only developing in a linux environment using the g++ compiler. My first goal is to render a cube (whoa!) in a SDL window.
+Currently I'm only developing in a linux environment using the g++ compiler.
 
 WARNING: expect messy code. This is an pre-early stage :o)
+
+Coming up: examples/glsl.h
+
+- Use shaders instead of fixed functino pipeline
+- Load and render .obj 3d models (simplified)
 
 Completed steps:
 
