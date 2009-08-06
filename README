@@ -4,13 +4,19 @@ Currently I'm only developing in a linux environment using the g++ compiler.
 
 WARNING: expect messy code. This is an pre-early stage :o)
 
-Coming up: examples/glsl.h
+Coming up:
 
-- Use shaders instead of fixed functino pipeline
-- Load and render .obj 3d models (simplified)
+- add texture support for ObjMesh
 
 Completed steps:
 
-X make it possible to stop the application without having to kill it
-X render cube
-X improve application design (good enough for now..)
+examples/glsl.h
+
+- Begin using shaders instead of fixed function pipeline
+- Load and render .obj 3d models (simplified, good enough for now)
+
+examples/cube.h
+
+- make it possible to stop the application without having to kill it
+- render cube
+- improve application design (good enough for now..)
