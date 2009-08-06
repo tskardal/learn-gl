@@ -1,4 +1,4 @@
-#version 120
+#version 110
 // minimal vertex shader
 // www.lighthouse3d.com
 

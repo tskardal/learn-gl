@@ -69,6 +69,8 @@ void GLSLExample::init()
     glClearDepth(1.0f);			// Depth Buffer Setup
     glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
     glDepthFunc(GL_LEQUAL);		// The Type Of Depth Testing To Do
+
+    cout << "GL_VERSION: " << glGetString(GL_VERSION);
 }
 
 void GLSLExample::draw()
@@ -95,8 +97,8 @@ void GLSLExample::setShaders()
     m_vertexShader = glCreateShader(GL_VERTEX_SHADER);
     m_fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-    fs = readTextFile("examples/sample.vert");
-    vs = readTextFile("examples/sample.frag");
+    fs = readTextFile("examples/sample.frag");
+    vs = readTextFile("examples/sample.vert");
 
     const char* ff = fs;
     const char* vv = vs;

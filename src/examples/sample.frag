@@ -1,4 +1,4 @@
-#version 120
+#version 110
 // minimal fragment shader
 // www.lighthouse3d.com
 
