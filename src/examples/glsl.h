@@ -20,6 +20,7 @@ private:
     void setShaders();
     char* readTextFile(string filename);
 
+    Mesh* m_mesh;
     GLuint m_vertexShader;
     GLuint m_fragmentShader;
     GLuint m_shaderProgram;
@@ -34,6 +35,7 @@ GLSLExample::GLSLExample()
 
 GLSLExample::~GLSLExample()
 {
+    delete m_mesh;
 }
 
 void GLSLExample::init()
@@ -51,11 +53,13 @@ void GLSLExample::init()
     }
 
     setShaders();
+
+    m_mesh = new ObjMesh("examples/sample.obj");
 }
 
 void GLSLExample::draw()
 {
-    ObjMesh mesh("examples/sample.obj");
+    m_mesh->draw();
 }
 
 void GLSLExample::update()
