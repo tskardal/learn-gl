@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "core/SDLwindow.h"
+#include "examples/cube.h"
 #include "examples/glsl.h"
 
 using namespace LearnGL;

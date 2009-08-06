@@ -30,7 +30,6 @@ private:
     vector<Vertex> m_vertices;
     vector<Vertex> m_colors;
     float m_angle;
-    Window* m_wnd; 
 };
 
 #endif

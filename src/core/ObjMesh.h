@@ -30,6 +30,7 @@ namespace LearnGL
 	vector<Vector3> m_vertices;
 	vector<Vector2> m_texcoords;
 	vector<Vector3> m_normals;
+	vector<Vector3> m_colors;
 
 	void addVector3(vector<string> tokens, vector<Vector3>* target);
 	void addVector2(vector<string> tokens, vector<Vector2>* target);
@@ -115,11 +116,14 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 	Face f = *it;	
 	int count = f.Vertices.size();
 
+	// get vertex defined by a index at face.Vertices[i]
+	// -1 because vertices starts at 0, while faces start at 1
 	for(int i = 0; i < count; i++)
 	{
-	    m_vertices.push_back(vertices[f.Vertices[i]]);
-	    m_texcoords.push_back(texcoords[f.TextureVertices[i]]);
-	    m_normals.push_back(normals[f.NormalVertices[i]]);
+	    m_vertices.push_back(vertices[f.Vertices[i]-1]);
+	    m_texcoords.push_back(texcoords[f.TextureVertices[i-1]]);
+	    m_normals.push_back(normals[f.NormalVertices[i-1]]);
+	    m_colors.push_back(Vector3(0.0, 1.0, 0.0));
 	}
     }
 }
@@ -127,43 +131,23 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 void ObjMesh::draw()
 {          
     glPushMatrix();
-    glLoadIdentity();
-    glTranslatef(0.0f, 0.0f, -10.0f);
-
-    glBegin(GL_POLYGON);
 
     glEnableClientState(GL_VERTEX_ARRAY);
-//    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     
     glVertexPointer(3, GL_FLOAT, 0, &m_vertices[0]);
-//    glTexCoordPointer(3, GL_FLOAT, 0, &m_texcoords[0]);
+    glColorPointer(3, GL_FLOAT, 0, &m_colors[0]);
+    glTexCoordPointer(2, GL_FLOAT, 0, &m_texcoords[0]);
     
     glDrawArrays(GL_POLYGON, 0, m_vertices.size());
 
-//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-
-    glEnd();
+    glEnableClientState(GL_COLOR_ARRAY);
 
     glPopMatrix();
 }
-
-/*
-void ObjMesh::drawFace(Face f)
-{
-    glColor3f(0.0f, 0.0f, 1.0f);
-
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
-    glVertexPointer(3, GL_FLOAT, 0, &m_vertices[f.Vertices[0]]);
-    
-    glDrawElements(GL_POLYGON, 1, GL_UNSIGNED_INT, &f.Vertices);
-
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_VERTEX_ARRAY);
-}
-*/
 
 void ObjMesh::addVector2(vector<string> src, vector<Vector2>* dest)
 {
@@ -208,13 +192,14 @@ void ObjMesh::addFace(vector<string> src, vector<Face>* dest)
 	
 	for(string each; getline(iss, each, '/');)
 	{
+	
 	    stringstream current(each);
 	    int index;      
-	    
-	    if(each != "")
+
+	    if(each == "")
 	    {
 		i++;
-		break;
+		continue;
 	    }
 	    
 	    current >> index;
@@ -234,4 +219,6 @@ void ObjMesh::addFace(vector<string> src, vector<Face>* dest)
 	    i++;
 	}
     }
+
+    dest->push_back(f);
 }

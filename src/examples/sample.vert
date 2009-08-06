@@ -1,15 +1,15 @@
-// simple vertex shader sample
-
-// simple toon vertex shader
+#version 120
+// minimal vertex shader
 // www.lighthouse3d.com
 
 
-varying vec3 normal, lightDir;
 
 void main()
 {	
-	lightDir = normalize(vec3(gl_LightSource[0].position));
-	normal = normalize(gl_NormalMatrix * gl_Normal);
-		
+
+	// the following three lines provide the same result
+
+//	gl_Position = gl_ProjectionMatrix * gl_ModelViewMatrix * gl_Vertex;
+//	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 	gl_Position = ftransform();
 }

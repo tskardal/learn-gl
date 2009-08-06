@@ -1,8 +1,14 @@
 #ifndef EXAMPLE_GLSL_H
 #define EXAMPLE_GLSL_H
 
+#include <GL/glew.h>
+
 #include "../core/application.h"
 #include "../core/ObjMesh.h"
+
+void printShaderInfoLog(GLuint);
+void printProgramInfoLog(GLuint);
+
 
 using namespace LearnGL;
 
@@ -21,6 +27,7 @@ private:
     char* readTextFile(string filename);
 
     Mesh* m_mesh;
+    float m_angle;
     GLuint m_vertexShader;
     GLuint m_fragmentShader;
     GLuint m_shaderProgram;
@@ -31,6 +38,7 @@ private:
 GLSLExample::GLSLExample()
 {
     init();
+    m_angle = 0.0f;
 }
 
 GLSLExample::~GLSLExample()
@@ -42,28 +50,42 @@ void GLSLExample::init()
 {
     glewInit();
 
-    if(glewIsSupported("GL_VERSION_2_1"))
-	printf("Ready for OpenGL 2.1\n");
-    else if(glewIsSupported("GL_VERSION_2_0"))
+//    if(glewIsSupported("GL_VERSION_2_1"))
+//	printf("Ready for OpenGL 2.1\n");
+    if(glewIsSupported("GL_VERSION_2_0"))
 	printf("Ready for OpenGL 2.0\n");
     else
     {
 	printf("OpenGL 2.x not supported\n");
-	SDL_Quit();
+	SDL_Quit();       
     }
 
     setShaders();
 
     m_mesh = new ObjMesh("examples/sample.obj");
+
+    glShadeModel(GL_SMOOTH);		// Enable Smooth Shading
+    glClearColor(0.0f, 0.0f, 0.0f, 0.5f);	// Black Background
+    glClearDepth(1.0f);			// Depth Buffer Setup
+    glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
+    glDepthFunc(GL_LEQUAL);		// The Type Of Depth Testing To Do
 }
 
 void GLSLExample::draw()
 {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0.0f, 0.0f, -8.0f);
+    glRotatef(m_angle, 0.2f, 0.6f, 0.5f);
     m_mesh->draw();
 }
 
 void GLSLExample::update()
 {
+    m_angle += 0.03f;
+
+    if(m_angle > 360)
+	m_angle = 0.0f;
 }
 
 void GLSLExample::setShaders()
@@ -88,12 +110,20 @@ void GLSLExample::setShaders()
     glCompileShader(m_vertexShader);
     glCompileShader(m_fragmentShader);
 
+    printShaderInfoLog(m_vertexShader);
+    printShaderInfoLog(m_fragmentShader);
+
     m_shaderProgram = glCreateProgram();
     glAttachShader(m_shaderProgram, m_fragmentShader);
     glAttachShader(m_shaderProgram, m_vertexShader);
 
     glLinkProgram(m_shaderProgram);
+
+    printProgramInfoLog(m_shaderProgram);
+
     glUseProgram(m_shaderProgram);
+
+    cout << "shader compilation & linking complete" << endl;
 }
 
 char* GLSLExample::readTextFile(string filename)
@@ -122,4 +152,38 @@ char* GLSLExample::readTextFile(string filename)
     }
 
     return content;
+}
+
+void printProgramInfoLog(GLuint obj)
+{
+    int infologLength = 0;
+    int charsWritten  = 0;
+    char *infoLog;
+
+	glGetProgramiv(obj, GL_INFO_LOG_LENGTH,&infologLength);
+
+    if (infologLength > 0)
+    {
+        infoLog = (char *)malloc(infologLength);
+        glGetProgramInfoLog(obj, infologLength, &charsWritten, infoLog);
+		printf("%s\n",infoLog);
+        free(infoLog);
+    }
+}
+
+void printShaderInfoLog(GLuint obj)
+{
+    int infologLength = 0;
+    int charsWritten  = 0;
+    char *infoLog;
+
+	glGetShaderiv(obj, GL_INFO_LOG_LENGTH,&infologLength);
+
+    if (infologLength > 0)
+    {
+        infoLog = (char *)malloc(infologLength);
+        glGetShaderInfoLog(obj, infologLength, &charsWritten, infoLog);
+		printf("%s\n",infoLog);
+        free(infoLog);
+    }
 }
