@@ -27,6 +27,10 @@ namespace LearnGL
 Texture::Texture(const string& filename)
 {
     ilInit();
+
+    ilEnable(IL_ORIGIN_SET);
+    ilOriginFunc(IL_ORIGIN_LOWER_LEFT);
+
     init(filename);
 }
 
@@ -45,7 +49,7 @@ void Texture::init(const string& filename)
     ILboolean success = ilLoadImage(filename.c_str());
     if(success)
     {
-	success = ilConvertImage(IL_RGBA, IL_UNSIGNED_BYTE);
+	success = ilConvertImage(IL_RGB, IL_UNSIGNED_BYTE);
 	    
 	if(!success)
 	{

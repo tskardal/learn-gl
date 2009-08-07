@@ -73,6 +73,7 @@ void GLSLExample::init()
     glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
     glDepthFunc(GL_LEQUAL);		// The Type Of Depth Testing To Do
 
+
     cout << "GL_VERSION: " << glGetString(GL_VERSION) << endl;
 
     m_texture = new Texture("examples/l3dx.png");

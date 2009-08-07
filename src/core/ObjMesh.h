@@ -137,6 +137,21 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 	}
     }
 
+    vector<Vector3>::iterator vert;
+    
+    for(vert = m_vertices.begin(); vert != m_vertices.end(); ++vert)
+    {
+	float x,y,z;
+	
+	Vector3 v = *vert;
+
+	x = v.x;
+	y = v.y;
+	z = v.z;
+
+	cout << "Vertex: " << x << ", " << y << ", " << z << endl;
+    }
+
     cout << "ending array creation" << endl;
     cout << "v: " << m_vertices.size() << endl;
     cout << "vt: " << m_texcoords.size() << endl;
@@ -155,7 +170,7 @@ void ObjMesh::draw()
 //    glColorPointer(3, GL_FLOAT, 0, &m_colors[0]);
     glTexCoordPointer(2, GL_FLOAT, 0, &m_texcoords[0]);
     
-    glDrawArrays(GL_POLYGON, 0, m_vertices.size());
+    glDrawArrays(GL_TRIANGLES, 0, m_vertices.size());
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
