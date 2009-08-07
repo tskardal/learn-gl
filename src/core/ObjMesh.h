@@ -112,7 +112,7 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 			     vector<Vector3> normals,
 			     vector<Face> faces)
 {
-    cout << "starting array creation" << endl;
+    cout << "starting array creation from " << faces.size() << " faces" << endl;
     vector<Face>::iterator it;
 
     for(it = faces.begin(); it != faces.end(); ++it)
@@ -128,10 +128,10 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 		m_vertices.push_back(vertices[f.Vertices[i]-1]);
 
 	    if(f.TextureVertices.size() > 0)
-		m_texcoords.push_back(texcoords[f.TextureVertices[i-1]]);
+		m_texcoords.push_back(texcoords[f.TextureVertices[i]-1]);
 
 	    if(f.NormalVertices.size() > 0)
-		m_normals.push_back(normals[f.NormalVertices[i-1]]);
+		m_normals.push_back(normals[f.NormalVertices[i]-1]);
 	   
 	    //m_colors.push_back(Vector3(0.0, 1.0, 0.0));
 	}
