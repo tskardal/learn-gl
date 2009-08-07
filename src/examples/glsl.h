@@ -5,6 +5,7 @@
 
 #include "../core/application.h"
 #include "../core/ObjMesh.h"
+#include "../core/texture.h"
 
 void printShaderInfoLog(GLuint);
 void printProgramInfoLog(GLuint);
@@ -27,6 +28,7 @@ private:
     char* readTextFile(string filename);
 
     Mesh* m_mesh;
+    Texture* m_texture;
     float m_angle;
     GLuint m_vertexShader;
     GLuint m_fragmentShader;
@@ -43,6 +45,7 @@ GLSLExample::GLSLExample()
 
 GLSLExample::~GLSLExample()
 {
+    delete m_texture;
     delete m_mesh;
 }
 
@@ -50,9 +53,9 @@ void GLSLExample::init()
 {
     glewInit();
 
-//    if(glewIsSupported("GL_VERSION_2_1"))
-//	printf("Ready for OpenGL 2.1\n");
-    if(glewIsSupported("GL_VERSION_2_0"))
+    if(glewIsSupported("GL_VERSION_2_1"))
+	printf("Ready for OpenGL 2.1\n");
+    else if(glewIsSupported("GL_VERSION_2_0"))
 	printf("Ready for OpenGL 2.0\n");
     else
     {
@@ -62,7 +65,7 @@ void GLSLExample::init()
 
     setShaders();
 
-    m_mesh = new ObjMesh("examples/sample.obj");
+    m_mesh = new ObjMesh("examples/l3dx.obj");
 
     glShadeModel(GL_SMOOTH);		// Enable Smooth Shading
     glClearColor(0.0f, 0.0f, 0.0f, 0.5f);	// Black Background
@@ -70,16 +73,22 @@ void GLSLExample::init()
     glEnable(GL_DEPTH_TEST);		// Enables Depth Testing
     glDepthFunc(GL_LEQUAL);		// The Type Of Depth Testing To Do
 
-    cout << "GL_VERSION: " << glGetString(GL_VERSION);
+    cout << "GL_VERSION: " << glGetString(GL_VERSION) << endl;
+
+    m_texture = new Texture("examples/l3dx.png");
 }
 
 void GLSLExample::draw()
 {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glClearColor(1.0, 1.0, 1.0, 1.0);
     glLoadIdentity();
     glTranslatef(0.0f, 0.0f, -8.0f);
     glRotatef(m_angle, 0.2f, 0.6f, 0.5f);
-    m_mesh->draw();
+
+    m_texture->enable();
+  
+    m_mesh->draw();  
 }
 
 void GLSLExample::update()

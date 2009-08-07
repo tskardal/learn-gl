@@ -69,7 +69,10 @@ void ObjMesh::load()
 	// extract tokens and copy to a vector
 	copy(istream_iterator<string>(iss),
 	     istream_iterator<string>(),
-	     back_inserter<vector<string> >(tokens));
+	     back_inserter<vector<string> >(tokens));	
+
+	if(tokens.size() == 0) 
+	    continue;
 
 	string type = tokens[0];
 
@@ -109,6 +112,7 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 			     vector<Vector3> normals,
 			     vector<Face> faces)
 {
+    cout << "starting array creation" << endl;
     vector<Face>::iterator it;
 
     for(it = faces.begin(); it != faces.end(); ++it)
@@ -119,13 +123,24 @@ void ObjMesh::generateArrays(vector<Vector3> vertices,
 	// get vertex defined by a index at face.Vertices[i]
 	// -1 because vertices starts at 0, while faces start at 1
 	for(int i = 0; i < count; i++)
-	{
-	    m_vertices.push_back(vertices[f.Vertices[i]-1]);
-	    m_texcoords.push_back(texcoords[f.TextureVertices[i-1]]);
-	    m_normals.push_back(normals[f.NormalVertices[i-1]]);
-	    m_colors.push_back(Vector3(0.0, 1.0, 0.0));
+	{	   	    
+	    if(f.Vertices.size() > 0)
+		m_vertices.push_back(vertices[f.Vertices[i]-1]);
+
+	    if(f.TextureVertices.size() > 0)
+		m_texcoords.push_back(texcoords[f.TextureVertices[i-1]]);
+
+	    if(f.NormalVertices.size() > 0)
+		m_normals.push_back(normals[f.NormalVertices[i-1]]);
+	   
+	    //m_colors.push_back(Vector3(0.0, 1.0, 0.0));
 	}
     }
+
+    cout << "ending array creation" << endl;
+    cout << "v: " << m_vertices.size() << endl;
+    cout << "vt: " << m_texcoords.size() << endl;
+    cout << "vn: " << m_normals.size() << endl;
 }
 
 void ObjMesh::draw()
@@ -133,18 +148,18 @@ void ObjMesh::draw()
     glPushMatrix();
 
     glEnableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
+//    glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     
     glVertexPointer(3, GL_FLOAT, 0, &m_vertices[0]);
-    glColorPointer(3, GL_FLOAT, 0, &m_colors[0]);
+//    glColorPointer(3, GL_FLOAT, 0, &m_colors[0]);
     glTexCoordPointer(2, GL_FLOAT, 0, &m_texcoords[0]);
     
     glDrawArrays(GL_POLYGON, 0, m_vertices.size());
 
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-    glEnableClientState(GL_COLOR_ARRAY);
+//    glEnableClientState(GL_COLOR_ARRAY);
 
     glPopMatrix();
 }

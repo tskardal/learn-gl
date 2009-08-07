@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-c -Wall
-LDFLAGS=-lSDL -lGL -lGLU -lGLEW
+LDFLAGS=-lSDL -lGL -lGLU -lGLEW -lIL
 SOURCES=main.cpp core/SDLwindow.h core/window.h
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=learn-gl
